@@ -1,0 +1,164 @@
+## Java
+
+
+*.class
+*.war
+*.ear
+hs_err_pid*
+
+## Robovm
+/ios/robovm-build/
+
+## GWT
+/html/war/
+/html/gwt-unitCache/
+.apt_generated/
+.gwt/
+gwt-unitCache/
+www-test/
+.gwt-tmp/
+
+## Android Studio and Intellij and Android in general
+/android/libs/armeabi/
+/android/libs/armeabi-v7a/
+/android/libs/arm64-v8a/
+/android/libs/x86/
+/android/libs/x86_64/
+/android/gen/
+.idea/
+*.ipr
+*.iws
+*.iml
+/android/out/
+com_crashlytics_export_strings.xml
+
+## Eclipse
+
+.classpath
+.project
+.metadata/
+/android/bin/
+/core/bin/
+/desktop/bin/
+/html/bin/
+/ios/bin/
+/ios-moe/bin/
+*.tmp
+*.bak
+*.swp
+*~.nib
+.settings/
+.loadpath
+.externalToolBuilders/
+*.launch
+
+## NetBeans
+
+/nbproject/private/
+/android/nbproject/private/
+/core/nbproject/private/
+/desktop/nbproject/private/
+/html/nbproject/private/
+/ios/nbproject/private/
+/ios-moe/nbproject/private/
+
+/build/
+/android/build/
+/core/build/
+/desktop/build/
+/html/build/
+/ios/build/
+/ios-moe/build/
+
+/nbbuild/
+/android/nbbuild/
+/core/nbbuild/
+/desktop/nbbuild/
+/html/nbbuild/
+/ios/nbbuild/
+/ios-moe/nbbuild/
+
+/dist/
+/android/dist/
+/core/dist/
+/desktop/dist/
+/html/dist/
+/ios/dist/
+/ios-moe/dist/
+
+/nbdist/
+/android/nbdist/
+/core/nbdist/
+/desktop/nbdist/
+/html/nbdist/
+/ios/nbdist/
+/ios-moe/nbdist/
+
+nbactions.xml
+nb-configuration.xml
+
+## Gradle
+
+/local.properties
+.gradle/
+gradle-app.setting
+/build/
+/android/build/
+/core/build/
+/desktop/build/
+/html/build/
+/ios/build/
+/ios-moe/build/
+
+## OS Specific
+.DS_Store
+Thumbs.db
+
+## iOS
+/ios/xcode/*.xcodeproj/*
+!/ios/xcode/*.xcodeproj/xcshareddata
+!/ios/xcode/*.xcodeproj/project.pbxproj
+/ios/xcode/native/
+
+/ios-moe/xcode/*.xcodeproj/*
+!/ios-moe/xcode/*.xcodeproj/xcshareddata
+!/ios-moe/xcode/*.xcodeproj/project.pbxproj
+/ios-moe/xcode/native/
+Будет удалено android/AndroidManifest.xml
+Будет удалено android/assets/background.png
+Будет удалено android/assets/badlogic.jpg
+Будет удалено android/assets/charSkeleton.png
+Будет удалено android/assets/current_user_arrow.png
+Будет удалено android/assets/font.fnt
+Будет удалено android/assets/font.png
+Будет удалено android/assets/hero.png
+Будет удалено android/assets/select_user_arrow.png
+Будет удалено android/assets/shield.png
+Будет удалено android/assets/sword.png
+Будет удалено android/assets/units.png
+Будет удалено android/assets/wait.png
+Будет удалено android/build.gradle
+Будет удалено android/ic_launcher-web.png
+Будет удалено android/proguard-rules.pro
+Будет удалено android/project.properties
+Будет удалено android/res/
+Будет удалено android/src/
+Будет удалено build.gradle
+Будет удалено core/assets/background.png
+Будет удалено core/assets/charSkeleton.png
+Будет удалено core/assets/current_user_arrow.png
+Будет удалено core/assets/font.fnt
+Будет удалено core/assets/font.png
+Будет удалено core/assets/hero.png
+Будет удалено core/assets/select_user_arrow.png
+Будет удалено core/assets/shield.png
+Будет удалено core/assets/sword.png
+Будет удалено core/assets/units.png
+Будет удалено core/assets/wait.png
+Будет удалено core/build.gradle
+Будет удалено core/src/
+Будет удалено desktop/build.gradle
+Будет удалено desktop/src/
+Будет удалено gradlew
+Будет удалено gradlew.bat
+Будет удалено settings.gradle
