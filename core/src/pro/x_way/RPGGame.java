@@ -2,18 +2,21 @@ package pro.x_way;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import javax.xml.soap.Text;
 
 public class RPGGame extends Game {
     private SpriteBatch batch;
-    private BattleScreen fightScreen;
 
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        fightScreen = new BattleScreen();
-        setScreen(fightScreen);
+
+        ScreenManager.getInstance().init(this, batch);
+        ScreenManager.getInstance().switchType(ScreenManager.ScreenType.BATTLE);
     }
 
     @Override
@@ -25,6 +28,7 @@ public class RPGGame extends Game {
     @Override
     public void dispose() {
         batch.dispose();
-        fightScreen.dispose();
     }
+
+
 }

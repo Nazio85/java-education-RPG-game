@@ -26,7 +26,8 @@ public class Button {
     }
 
     public boolean isCLickButton() {
-        return InputHandler.isClick(rectangle);
+//        return InputHandler.isClick(rectangle);
+        return false;
     }
 
     public void render(SpriteBatch batch) {

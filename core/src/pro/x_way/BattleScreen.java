@@ -1,7 +1,9 @@
 package pro.x_way;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,17 +29,25 @@ public class BattleScreen implements Screen {
     public static Unit currentUnit;
 
     private int step;
+    private SpecialFX fx;
     private Texture currentUserArrow;
     private Texture selectUserArrow;
     private List<Button> buttons;
     private float timeBetweenStep;
-    private Texture texture;
 
+    private InputHandler inputHandler;
+
+    public BattleScreen(SpriteBatch batch) {
+        this.batch = batch;
+    }
 
     @Override
     public void show() {
+        Assets.getInstance().loadAssets(ScreenManager.ScreenType.BATTLE);
+        inputHandler = new InputHandler();
+        Gdx.input.setInputProcessor(inputHandler);
+        fx = new SpecialFX();
         background = new BattleBackGround();
-        batch = new SpriteBatch();
         GameText.gameTextSetup();
         startTeam = new ArrayList<Unit>();
         FabricSkills.setup();
@@ -51,24 +61,27 @@ public class BattleScreen implements Screen {
         currentTeam = new ArrayList<Unit>(startTeam);
         currentUnit = currentTeam.get(step = 0);
 
-        currentUserArrow = new Texture("current_user_arrow.png");
-        selectUserArrow = new Texture("select_user_arrow.png");
+        currentUserArrow = Assets.getInstance().getAssetManager().get("current_user_arrow.png");
+        selectUserArrow = Assets.getInstance().getAssetManager().get("select_user_arrow.png");
 
         buttons = new ArrayList<Button>();
         buttons.add(new Button("sword.png", 25, 25));
         buttons.add(new Button("shield.png", 100, 25));
         buttons.add(new Button("wait.png", 175, 25));
+
+
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.render(batch);
         GameText.render(batch);
         cursor();
         update(delta);
+        fx.render(batch);
 
         for (int i = 0; i < startTeam.size(); i++) {
             startTeam.get(i).render(batch);
@@ -118,6 +131,11 @@ public class BattleScreen implements Screen {
     }
 
     private void update(float dt) {
+        fx.update(dt);
+        if (inputHandler.isTouched()) {
+            fx.setup(inputHandler.getX(), inputHandler.getY());
+        }
+
         for (int i = 0; i < startTeam.size(); i++) {
             startTeam.get(i).update(dt);
         }
@@ -159,18 +177,18 @@ public class BattleScreen implements Screen {
     }
 
     private void selectUnit() {
-        for (int i = 0; i < currentTeam.size(); i++) {
-            if (InputHandler.isClick(currentTeam.get(i).getFormUnit())) {
-                selectUnit = currentTeam.get(i);
-            }
-        }
+//        for (int i = 0; i < currentTeam.size(); i++) {
+//            if (InputHandler.isClick(currentTeam.get(i).getFormUnit())) {
+//                selectUnit = currentTeam.get(i);
+//            }
+//        }
         isWin();
     }
 
 
     @Override
     public void resize(int width, int height) {
-
+        ScreenManager.getInstance().resize(width, height);
     }
 
     @Override
