@@ -42,7 +42,6 @@ public class ScreenManager {
 
     public void resize (int width, int height){
         viewport.update(width, height, true);
-        System.out.println(width);
         viewport.apply();
     }
 

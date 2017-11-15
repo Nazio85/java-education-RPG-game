@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Assets {
     private static final Assets ourInstance = new Assets();
+    public static final String ACTION_PANEL_PNG = "actionPanel.png";
+    public static final String BACKGROUND_PNG = "background.png";
 
     public static Assets getInstance() {
         return ourInstance;
@@ -23,7 +25,8 @@ public class Assets {
     public void loadAssets (ScreenManager.ScreenType screenType){
         switch (screenType){
             case BATTLE:
-                assetManager.load("background.png", Texture.class);
+                assetManager.load(BACKGROUND_PNG, Texture.class);
+                assetManager.load(ACTION_PANEL_PNG, Texture.class);
                 assetManager.load("hero.png", Texture.class);
                 assetManager.load("charSkeleton.png", Texture.class);
                 assetManager.load("current_user_arrow.png", Texture.class);

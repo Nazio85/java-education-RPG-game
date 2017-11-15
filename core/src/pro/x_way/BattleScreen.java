@@ -1,29 +1,40 @@
 package pro.x_way;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import pro.x_way.buttons.Button;
 import pro.x_way.skils.FabricSkills;
-import pro.x_way.units.*;
+import pro.x_way.units.Player;
+import pro.x_way.units.Skeleton;
+import pro.x_way.units.Unit;
 
 public class BattleScreen implements Screen {
     public static final float TIME_BETWEEN_STEP = 1.5f;
+    public static final String BTN_ATTACK = "btnAttack";
     private SpriteBatch batch;
     private BattleBackGround background;
     private List<Unit> startTeam;
     public static List<Unit> currentTeam;
 
+
+    private Stage stage; // хранилище интерфейсов (слой экрана)
+    private Skin skin; //Офрмление - как будут выглядеть кнопки
 
     public static Unit selectUnit;
     public static Unit currentUnit;
@@ -46,6 +57,8 @@ public class BattleScreen implements Screen {
         Assets.getInstance().loadAssets(ScreenManager.ScreenType.BATTLE);
         inputHandler = new InputHandler();
         Gdx.input.setInputProcessor(inputHandler);
+        createGUI();
+        Gdx.input.setInputProcessor(stage);
         fx = new SpecialFX();
         background = new BattleBackGround();
         GameText.gameTextSetup();
@@ -64,11 +77,6 @@ public class BattleScreen implements Screen {
         currentUserArrow = Assets.getInstance().getAssetManager().get("current_user_arrow.png");
         selectUserArrow = Assets.getInstance().getAssetManager().get("select_user_arrow.png");
 
-        buttons = new ArrayList<Button>();
-        buttons.add(new Button("sword.png", 25, 25));
-        buttons.add(new Button("shield.png", 100, 25));
-        buttons.add(new Button("wait.png", 175, 25));
-
 
     }
 
@@ -78,6 +86,7 @@ public class BattleScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.render(batch);
+
         GameText.render(batch);
         cursor();
         update(delta);
@@ -85,12 +94,6 @@ public class BattleScreen implements Screen {
 
         for (int i = 0; i < startTeam.size(); i++) {
             startTeam.get(i).render(batch);
-        }
-
-        if (!currentUnit.isEnemy()) {
-            for (int i = 0; i < buttons.size(); i++) {
-                buttons.get(i).render(batch);
-            }
         }
 
 
@@ -104,6 +107,7 @@ public class BattleScreen implements Screen {
 
         GameText.printFlyingText(batch);
         batch.end();
+        stage.draw();
     }
 
 
@@ -132,6 +136,7 @@ public class BattleScreen implements Screen {
 
     private void update(float dt) {
         fx.update(dt);
+        stage.act(dt);
         if (inputHandler.isTouched()) {
             fx.setup(inputHandler.getX(), inputHandler.getY());
         }
@@ -146,11 +151,43 @@ public class BattleScreen implements Screen {
         GameText.update(dt);
     }
 
+    public void createGUI() {
+        stage = new Stage(ScreenManager.getInstance().getViewport(), batch);
+        skin = new Skin();
+
+        skin.add(BTN_ATTACK, Assets.getInstance().getAssetManager().get("sword.png"));
+        Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
+        buttonStyle.up = skin.newDrawable(BTN_ATTACK, Color.WHITE);
+        buttonStyle.down = skin.newDrawable(BTN_ATTACK, Color.RED);
+        skin.add(BTN_ATTACK, buttonStyle);
+
+
+        Button button = new Button(skin, BTN_ATTACK);
+        button.setPosition(25, 25);
+        button.setSize(100,100);
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("Boom");
+            }
+        });
+
+        Group group = new Group();
+        group.setPosition(30, 30);
+        Image image = new Image(Assets.getInstance().getAssetManager().get(Assets.ACTION_PANEL_PNG, Texture.class));
+        group.addActor(image);
+        group.addActor(button);
+
+
+
+        stage.addActor(group);
+    }
+
     private void steps() {
         if (timeBetweenStep <= 0) {
             currentUnit.updateBonus(); // Обновляем бонусы
             if (!currentUnit.isEnemy()) { // если ходит игрок
-                if (PlayerStep.isWalk(buttons)) nextUnitStep();
+
             } else { // если ходит пк
                 if (AI.isWalk()) nextUnitStep();
             }
